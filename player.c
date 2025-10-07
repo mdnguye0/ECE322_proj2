@@ -81,7 +81,7 @@ char check_add_book(struct player* target) {
     if (count == 4) {
       char temp;
       for (int i = 0; i < 7; i++) {
-        if (target->book[i] == '-') {
+        if (target->book[i] == '\0') {
           target->book[i] = curr->top.rank[0];
           temp = curr->top.rank[0];
           break;
@@ -153,7 +153,7 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
 }
 
 int game_over(struct player* target) {
-    if (target->book[6] != '-') {
+    if (target->book[6] != '\0') {
         return 1;
     }
 
@@ -178,27 +178,27 @@ int reset_player(struct player* target) {
     target->hand_size = 0;
     
     for (int i = 0; i < 7; i++) {
-        target->book[i] = '-';
+        target->book[i] = '\0';
     }
 
     return 0;
 }
+
 void initialize(struct player* target) {
     target->card_list = NULL;
     target->hand_size = 0;
     
     for (int i = 0; i < 7; i++) {
-        target->book[i] = '-';
+        target->book[i] = '\0';
     }
-
 }
 
 char computer_play(struct player* target) {
-    if (target-> hand_size == 0 || target-> card_list == NULL){ 
+    if (target->hand_size == 0 || target->card_list == NULL){ 
         return 1; 
     }
-    int r = rand() % target-> hand_size; 
-    struct hand* curr = target-> card_list; 
+    int r = rand() % target->hand_size; 
+    struct hand* curr = target->card_list; 
     for (int i = 0; i<r; i++){ 
         curr = curr->next; 
     }
@@ -216,4 +216,3 @@ char user_play(struct player* target){
 
     }
 }
-

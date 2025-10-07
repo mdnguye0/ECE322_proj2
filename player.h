@@ -2,9 +2,6 @@
 #define PLAYER_H
 
 #include <stdlib.h>
-#include <string.h> 
-#include <ctype.h> 
-
 #include "card.h"
 
 /*
@@ -92,7 +89,7 @@ int search(struct player* target, char rank);
  *   Return: 0 if no cards found/transferred, <0 if error, otherwise 
  *   return value indicates number of cards transferred
  */   
-int transfer_cards(struct player* src, struct player* dest, char rank); 
+int transfer_cards(struct player* src, struct player* dest, char rank);
 
 /*
  * Function: game_over
@@ -146,6 +143,20 @@ char computer_play(struct player* target);
  *   returns: return a valid selected rank
  */
 char user_play(struct player* target);
+
+/* 
+ * Function: initialize
+ * -------------------
+ *
+ *   Initialize players' hands, including emptying out card_list, resetting hand_size and adding '\0' to book.
+ *   Used for book-related tasks.
+ *   This only applies to the first match each time the game runs.
+ *
+ *   target: the player's hand
+ * 
+ *   returns: nothing
+*/
+void initialize(struct player* target);
 
 #endif
 

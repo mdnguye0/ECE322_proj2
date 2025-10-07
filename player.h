@@ -144,20 +144,6 @@ char computer_play(struct player* target);
  */
 char user_play(struct player* target);
 
-/* 
- * Function: initialize
- * -------------------
- *
- *   Initialize players' hands, including emptying out card_list, resetting hand_size and adding '\0' to book.
- *   Used for book-related tasks.
- *   This only applies to the first match each time the game runs.
- *
- *   target: the player's hand
- * 
- *   returns: nothing
-*/
-void initialize(struct player* target);
-
 #endif
 
 

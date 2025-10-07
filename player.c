@@ -81,7 +81,7 @@ char check_add_book(struct player* target) {
     if (count == 4) {
       char temp;
       for (int i = 0; i < 7; i++) {
-        if (target->book[i] == '\0') {
+        if (target->book[i] == '-') {
           target->book[i] = curr->top.rank[0];
           temp = curr->top.rank[0];
           break;

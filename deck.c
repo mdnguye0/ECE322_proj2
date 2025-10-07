@@ -1,4 +1,5 @@
 #include "deck.h"
+#include <stdlib.h>
 
 /*
  * Variable: deck_instance
@@ -10,7 +11,7 @@ struct deck deck_instance;
 
 int shuffle(){
     char suits[] = {'C', 'D', 'H', 'S'}; 
-    char ranks[] = {'2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'}; 
+    char ranks[] = {'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'}; 
 
     int count= 0; 
     for (int i = 0; i <4; i++){ 

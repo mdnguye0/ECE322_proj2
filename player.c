@@ -1,4 +1,5 @@
 #include "player.h"
+#include <stdlib.h>
 
 /*
  * Instance Variables: user, computer   

@@ -61,16 +61,15 @@ char check_add_book(struct player* target) {
   }
 
   struct hand* curr = target->card_list;
+  char temp;
 
   while ((curr != NULL)) {
     struct hand* curr1 = target->card_list;
     struct card* remove[4] = {NULL};
-    int count = 0;
     int idx = 0;
 
     while ((curr1 != NULL)) {
-      if (curr->top.rank == curr1->top.rank) {
-        count += 1;
+      if (curr->top.rank[0] == curr1->top.rank[0]) {
         remove[idx] = &(curr1->top);
         idx += 1;
       }
@@ -78,8 +77,7 @@ char check_add_book(struct player* target) {
       curr1 = curr1->next;
     }
 
-    if (count == 4) {
-      char temp;
+    if (idx == 4) {
       for (int i = 0; i < 7; i++) {
         if (target->book[i] == '\0') {
           target->book[i] = curr->top.rank[0];
@@ -153,7 +151,7 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
 }
 
 int game_over(struct player* target) {
-    if (target->book[6] != '-') {
+    if (target->book[6] != '\0') {
         return 1;
     }
 
@@ -178,7 +176,7 @@ int reset_player(struct player* target) {
     target->hand_size = 0;
     
     for (int i = 0; i < 7; i++) {
-        target->book[i] = '-';
+        target->book[i] = '\0';
     }
 
     return 0;
@@ -188,7 +186,7 @@ void initialize(struct player* target) {
     target->hand_size = 0;
     
     for (int i = 0; i < 7; i++) {
-        target->book[i] = '-';
+        target->book[i] = '\0';
     }
 
 }
@@ -228,4 +226,3 @@ char user_play(struct player* target){
         }
     }
 }
-

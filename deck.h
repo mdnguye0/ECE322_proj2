@@ -53,7 +53,7 @@ int deal_player_cards(struct player* target);
  *
  *  returns: pointer to the top card on the deck.
  */
-struct card* next_card();
+struct card* next_card( );
 
 /*
  * Function: size

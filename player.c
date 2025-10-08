@@ -1,5 +1,4 @@
 #include "player.h"
-#include <stdlib.h>
 
 /*
  * Instance Variables: user, computer   
@@ -154,7 +153,7 @@ int transfer_cards(struct player* src, struct player* dest, char rank) {
 }
 
 int game_over(struct player* target) {
-    if (target->book[6] != '\0') {
+    if (target->book[6] != '-') {
         return 1;
     }
 
@@ -179,18 +178,27 @@ int reset_player(struct player* target) {
     target->hand_size = 0;
     
     for (int i = 0; i < 7; i++) {
-        target->book[i] = '\0';
+        target->book[i] = '-';
     }
 
     return 0;
 }
+void initialize(struct player* target) {
+    target->card_list = NULL;
+    target->hand_size = 0;
+    
+    for (int i = 0; i < 7; i++) {
+        target->book[i] = '-';
+    }
+
+}
 
 char computer_play(struct player* target) {
-    if (target->hand_size == 0 || target->card_list == NULL){ 
+    if (target-> hand_size == 0 || target-> card_list == NULL){ 
         return 1; 
     }
-    int r = rand() % target->hand_size; 
-    struct hand* curr = target->card_list; 
+    int r = rand() % target-> hand_size; 
+    struct hand* curr = target-> card_list; 
     for (int i = 0; i<r; i++){ 
         curr = curr->next; 
     }
@@ -205,6 +213,19 @@ char user_play(struct player* target){
         printf("Player 1's turn, enter a Rank: "); 
         scanf("%s", input); 
         
+        if (strcmp(input, "10") == 0){ 
+          rank_opt = 'T'; 
+        }
+        else{ 
+          rank_opt = toupper(input[0]); 
+        }
 
+        if(search(target, rank_opt) == 1){ 
+          return rank_opt; 
+        }
+        else {
+          printf("Error - Must have at least 1 card from rank to play \n"); 
+        }
     }
 }
+

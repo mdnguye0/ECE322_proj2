@@ -1,5 +1,4 @@
 #include "deck.h"
-#include <stdlib.h>
 
 /*
  * Variable: deck_instance

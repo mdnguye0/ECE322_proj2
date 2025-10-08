@@ -1,0 +1,9 @@
+Name 1: Tuyen Dau (#34153284)
+Name 2: Minh Nguyen (#34272216)
+
+
+Tuyen Dau:
+- player.c: add_card(), remove_card(), check_add_book(), search(), transfer_cards(), game_over(), reset_player()
+
+- gofish.c: search_suit() + Debugging
+

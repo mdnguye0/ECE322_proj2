@@ -181,15 +181,6 @@ int reset_player(struct player* target) {
 
     return 0;
 }
-void initialize(struct player* target) {
-    target->card_list = NULL;
-    target->hand_size = 0;
-    
-    for (int i = 0; i < 7; i++) {
-        target->book[i] = '\0';
-    }
-
-}
 
 char computer_play(struct player* target) {
     if (target-> hand_size == 0 || target-> card_list == NULL){ 

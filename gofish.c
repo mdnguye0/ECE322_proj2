@@ -124,9 +124,9 @@ int main(int args, char* argv[])
 
           for (int i = 0; i < 4; i++) {
             if (suits[i] != '\0') {
-              if (ask_rank == 'T'){ 
+              if (ask_rank == 'T') { 
                 printf("10%c ", suits[i]);
-              }else {
+              } else {
                 printf("%c%c ", ask_rank, suits[i]);
             }
           }
@@ -199,9 +199,9 @@ int main(int args, char* argv[])
               if (temp_suit[i] != '\0') {
                 if (new_card->rank[0] == 'T') {
                   printf("10%c ", temp_suit[i]);
-              } else {
+                } else {
                   printf("%c%c ", new_card->rank[0], temp_suit[i]);
-              }
+                }
               }
             }
               
@@ -251,11 +251,21 @@ int main(int args, char* argv[])
     }
     
     if (game_over(&user)) { // If winner is decided, announce winner and scoreboard
+      printf("Player 1's Hand - ");
+      print_hand(&user); 
+      printf("Player 1's Book - "); 
+      print_books(&user); 
+      printf("Player 2's Book - "); 
+      print_books(&computer); 
       printf("Player 1 Wins! %d-%d", count_user, count_computer); 
     } else if (game_over(&computer)) { 
+      printf("Player 1's Hand - "); 
+      print_hand(&user); 
+      printf("Player 1's Book - "); 
+      print_books(&user); 
+      printf("Player 2's Book - "); 
+      print_books(&computer); 
       printf("Player 2 Wins! %d-%d", count_computer, count_user);
-    } else { 
-      printf("Game is a draw!\n"); 
     }
 
     char user_in; // Variable to hold user input for replaying

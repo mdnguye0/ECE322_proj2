@@ -124,8 +124,12 @@ int main(int args, char* argv[])
 
           for (int i = 0; i < 4; i++) {
             if (suits[i] != '\0') {
-              printf("%c%c ", ask_rank, suits[i]);
+              if (ask_rank == 'T'){ 
+                printf("10%c ", suits[i]);
+              }else {
+                printf("%c%c ", ask_rank, suits[i]);
             }
+          }
           }
           
           printf("\n");
@@ -193,7 +197,11 @@ int main(int args, char* argv[])
 
             for (int i = 0; i < same_cards; i++) {
               if (temp_suit[i] != '\0') {
-                printf("%c%c ", new_card->rank[0], temp_suit[i]);
+                if (new_card->rank[0] == 'T') {
+                  printf("10%c ", temp_suit[i]);
+              } else {
+                  printf("%c%c ", new_card->rank[0], temp_suit[i]);
+              }
               }
             }
               

@@ -161,6 +161,8 @@ int main(int args, char* argv[])
         if (deck_size() > 0) {
           struct card* new_card = next_card(); 
           add_card(currentp, new_card); 
+          char temp_suit[] = {'\0', '\0', '\0', '\0'};
+          int same_cards = search_suit(currentp, temp_suit, new_card->rank[0]);
             
           if (current_player == 1) {
             if (new_card->rank[0] == 'T') {
@@ -183,9 +185,6 @@ int main(int args, char* argv[])
           char current_book = check_add_book(currentp);
 
           if (current_book != 0) {
-            char temp_suit[] = {'\0', '\0', '\0', '\0'};
-            int same_cards = search_suit(currentp, temp_suit, new_card->rank[0]);
-
             printf(" - Player %d has ", current_player);
 
             for (int i = 0; i < same_cards; i++) {

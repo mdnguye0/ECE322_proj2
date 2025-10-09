@@ -7,7 +7,3 @@ Tuyen Dau:
 
 - gofish.c: search_suit() + Debugging
 
-Minh Nguyen: 
-- deck.c: shuffle(), deal_player_cards(), next_card(), deck_size() 
-- player.c: computer_play(), user_play() 
-- gofish.c: print_books(), print_hands() 

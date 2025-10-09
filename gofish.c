@@ -1,28 +1,32 @@
 #include "gofish.h"
 
+/***
+Char array can only hold single characters, so we substitute T for 10 in the arrays,
+but still print out 10 in announcements
+***/
 
 int main(int args, char* argv[]) 
 {
-  srand(time(NULL)); 
-  int playing = 1; 
+  srand(time(NULL)); // Set random seed 
+  int playing = 1; // Variable to decide whether to play/reset match or to stop
 
   while (playing) {
-    printf("\nShuffling deck...\n\n"); 
+    printf("\nShuffling deck...\n\n"); // Shuffle deck
     shuffle();
     
-    reset_player(&user); 
+    reset_player(&user); // Initialize players
     reset_player(&computer); 
 
-    deal_player_cards(&user); 
+    deal_player_cards(&user); // Initially assign random cards to players
     deal_player_cards(&computer); 
 
-    int current_player = 1; 
+    int current_player = 1; // Variable to decide positions of players
 
-    while ((!game_over(&user)) && (!game_over(&computer))) {
+    while ((!game_over(&user)) && (!game_over(&computer))) { // Each turn
       struct player* currentp; 
       struct player* otherp; 
 
-      if (current_player == 1) {
+      if (current_player == 1) { // Assign positions to both players
         currentp = &user;
         otherp = &computer;  
       } else { 
@@ -30,19 +34,19 @@ int main(int args, char* argv[])
         otherp = &user; 
       }
 
-      printf("Player 1's Hand - "); 
+      printf("Player 1's Hand - "); // Announce user's hand and both players' books
       print_hand(&user); 
       printf("Player 1's Book - "); 
       print_books(&user); 
       printf("Player 2's Book - "); 
       print_books(&computer); 
 
-      char ask_rank;
+      char ask_rank; // Variable for rank input
 
       if (current_player == 1) { 
-        ask_rank = user_play(&user); 
+        ask_rank = user_play(&user); // Prompt for user input if on turn
       } else { 
-          printf("Player 2's turn, enter a Rank: "); 
+          printf("Player 2's turn, enter a Rank: "); // Automatic computer input if on turn
           ask_rank = computer_play(&computer); 
 
           if (ask_rank == 'T') {
@@ -53,14 +57,14 @@ int main(int args, char* argv[])
           }
       }
 
-      char transfered_suit[4] = {'\0', '\0', '\0', '\0'};
-      int transfered_card = search_suit(otherp, transfered_suit, ask_rank);
-      transfered_card =  transfer_cards(otherp, currentp, ask_rank); 
+      char transfered_suit[4] = {'\0', '\0', '\0', '\0'}; // Array to hold suits of transfered cards
+      int transfered_card = search_suit(otherp, transfered_suit, ask_rank); // Fill up the suit array
+      transfered_card =  transfer_cards(otherp, currentp, ask_rank); // Transfer cards
 
-      if (transfered_card > 0) {
+      if (transfered_card > 0) { // If there are cards being transfered
         if (ask_rank == 'T') {
           if (current_player == 1) {
-            printf(" - Player %d has ", 2);
+            printf(" - Player %d has ", 2); // Announce whose and which Rank-10 cards being transfered
 
             for (int i = 0; i < 4; i++) {
               if (transfered_suit[i] != '\0') {
@@ -70,7 +74,7 @@ int main(int args, char* argv[])
 
             printf("\n");
           } else {
-            printf(" - Player %d has ", 1);
+            printf(" - Player %d has ", 1); // Announce whose and which Rank-10 cards being transfered
 
             for (int i = 0; i < 4; i++) {
               if (transfered_suit[i] != '\0') {
@@ -82,7 +86,7 @@ int main(int args, char* argv[])
         }
         } else {
           if (current_player == 1) {
-            printf(" - Player %d has ", 2);
+            printf(" - Player %d has ", 2); // Announce whose and which cards being transfered
 
               for (int i = 0; i < 4; i++) {
                 if (transfered_suit[i] != '\0') {
@@ -92,7 +96,7 @@ int main(int args, char* argv[])
 
               printf("\n");
           } else {
-            printf(" - Player %d has ", 1);
+            printf(" - Player %d has ", 1); // Announce whose and which cards being transfered
 
               for (int i = 0; i < 4; i++) {
                 if (transfered_suit[i] != '\0') {
@@ -104,11 +108,11 @@ int main(int args, char* argv[])
           }
         }   
 
-        char current_book = check_add_book(currentp); 
+        char current_book = check_add_book(currentp); // Check players' books
 
-        if (current_book != 0) {
-          char suits[] = {'C', 'D', 'H', 'S'};
-          printf(" - Player %d has ", current_player);
+        if (current_book != 0) { // If a book is formed
+          char suits[] = {'C', 'D', 'H', 'S'}; // Temporary array holding suits
+          printf(" - Player %d has ", current_player); // Announce which cards are booked
 
           for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -126,14 +130,14 @@ int main(int args, char* argv[])
           
           printf("\n");
 
-          if (current_book == 'T') {
+          if (current_book == 'T') { // Announcing which rank is booked and who gets another turn
             printf(" - Player %d books 10\n", current_player);
           } else {
             printf(" - Player %d books %c\n", current_player, current_book);
           }
 
           printf(" - Player %d gets another turn\n\n", current_player);
-        } else {
+        } else { // Switch turns if there is no books formed
           if (current_player == 1) {
             current_player = 2;
           } else {
@@ -143,8 +147,8 @@ int main(int args, char* argv[])
           printf(" - Player %d's turn\n\n", current_player);
         }
 
-      } else {
-        if (ask_rank == 'T') {
+      } else { // If there are no cards being transfered
+        if (ask_rank == 'T') { // Announcing which players do not have the desired-rank cards
           if (current_player == 1) {
             printf(" - Player 2 has no 10's\n"); 
           } else {
@@ -158,11 +162,11 @@ int main(int args, char* argv[])
             }
         }
     
-        if (deck_size() > 0) {
-          struct card* new_card = next_card(); 
+        if (deck_size() > 0) { // If there are still cards in the deck
+          struct card* new_card = next_card(); // Draw a new card
           add_card(currentp, new_card); 
             
-          if (current_player == 1) {
+          if (current_player == 1) { // Annoucing Go Fish and who draws cards
             if (new_card->rank[0] == 'T') {
               printf(" - Go Fish, Player %d draws 10%c\n",current_player, new_card->suit);
             } else {
@@ -180,12 +184,12 @@ int main(int args, char* argv[])
             }
           }
 
-          char temp_suit[] = {'\0', '\0', '\0', '\0'};
-          int same_cards = search_suit(currentp, temp_suit, new_card->rank[0]);
-          char current_book = check_add_book(currentp);
+          char temp_suit[] = {'\0', '\0', '\0', '\0'}; // Temporary array to hold suits
+          int same_cards = search_suit(currentp, temp_suit, new_card->rank[0]); // Collecting suits of cards with the same rank as the new card
+          char current_book = check_add_book(currentp); // Check players' books
 
-          if (current_book != 0) {
-            printf(" - Player %d has ", current_player);
+          if (current_book != 0) { // If there is a book formed
+            printf(" - Player %d has ", current_player); // Announcing which cards are booked
 
             for (int i = 0; i < same_cards; i++) {
               if (temp_suit[i] != '\0') {
@@ -195,16 +199,16 @@ int main(int args, char* argv[])
               
             printf("\n");
 
-            if (current_book == 'T') {
+            if (current_book == 'T') { // Announcing which rank is booked and who gets another turn
               printf(" - Player %d books 10\n", current_player);
             } else {
               printf(" - Player %d books %c\n", current_player, current_book);
             }
 
             printf(" - Player %d gets another turn\n\n", current_player); 
-          } else if (new_card->rank[0] == ask_rank) {
+          } else if (new_card->rank[0] == ask_rank) { // If the new card has the same rank as input
             printf(" - Player %d gets another turn\n\n", current_player); 
-          } else { 
+          } else { // Otherwise, switch turns
             if (current_player == 1) { 
               current_player = 2; 
             } else { 
@@ -213,7 +217,7 @@ int main(int args, char* argv[])
             
             printf(" - Player %d's turn\n\n", current_player); 
           }
-        } else { 
+        } else { // If deck is empty, then don't draw and switch turns
           printf(" - Deck is empty\n"); 
 
           if (current_player == 1) { 
@@ -223,25 +227,35 @@ int main(int args, char* argv[])
           }
 
           printf(" - Player %d's turn\n\n", current_player);
-          }
+        }
       }
- 
     }
 
-    if (game_over(&user)) { 
-      printf("Player 1 Wins! %ld-%ld",user.hand_size, computer.hand_size); 
+    int count_user = 0; // Variables to count the number of books of each player
+    int count_computer = 0;
+    for (int i = 0; i < 7; i++) { // Counting number of books
+      if (user.book[i] != '\0') {
+        count_user += 1;
+      }
+      if (computer.book[i] != '\0') {
+        count_computer += 1;
+      }
+    }
+    
+    if (game_over(&user)) { // If winner is decided, announce winner and scoreboard
+      printf("Player 1 Wins! %d-%d", count_user, count_computer); 
     } else if (game_over(&computer)) { 
-      printf("Player 2 Wins! %ld-%ld", computer.hand_size,user.hand_size);
+      printf("Player 2 Wins! %d-%d", count_computer, count_user);
     } else { 
       printf("Game is a draw!\n"); 
     }
 
-    char user_in; 
+    char user_in; // Variable to hold user input for replaying
 
     printf("\nDo you want to play again [Y/N]: "); 
-    scanf("%c", &user_in); 
+    scanf(" %c", &user_in); 
 
-    if (toupper(user_in) != 'Y') {
+    if (toupper(user_in) != 'Y') { // Replay or stop the game based on users' choice
       playing = 0; 
       printf("Exiting.\n"); 
     }
@@ -250,7 +264,7 @@ int main(int args, char* argv[])
   return 0; 
 }
 
-void print_hand(struct player* target) { 
+void print_hand(struct player* target) { // Helper function to announce players' hands
   if (target-> card_list == NULL) {
     printf("\n"); 
     return; 
@@ -267,7 +281,7 @@ void print_hand(struct player* target) {
   printf("\n"); 
 }
 
-void print_books(struct player* target) { 
+void print_books(struct player* target) { // Helper function to announce players' books
   for (int i = 0; i<7; i++) { 
     if (target-> book[i] != '\0') {
       if (target->book[i] == 'T') {
@@ -280,7 +294,7 @@ void print_books(struct player* target) {
   printf("\n"); 
 }
 
-int search_suit(struct player* target, char suits[], char rank) {
+int search_suit(struct player* target, char suits[], char rank) { // Helper function to get suits of a specific rank in players' hands
   struct hand* curr = target->card_list;
   int idx = 0;
 
